@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: brianbyers/concourse-gradle
+    tag: "latest"
+
+
+inputs:
+  - name: git-repo
+
+outputs:
+  - name: artifact-dir
+  - name: sonarqube-analysis-input
+
+run:
+  path: git-repo/ci/build-artifact.sh
+
+params:
+  base_name:
