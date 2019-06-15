@@ -8,7 +8,7 @@ resources:
   - name: git-repo
     type: git
     source:
-      uri: https://github.com/sharadg/blue-green-demo.git
+      uri: https://github.com/sharadg/hello-gradle.git
       branch: master
   - name: code-analysis
     type: sonar-runner
@@ -25,12 +25,14 @@ jobs:
       - task: build
         file: git-repo/ci/build-artifact.yml
         params:
-          base_name: blue-green-demo
+          base_name: hello-gradle
       - put: code-analysis
         params:
           project_key: {{SC_PROJECT_KEY}}
           project_path: sonarqube-analysis-input
-          scanner_type: maven
+          additional_properties:
+            sonar.java.source: 1.8
+            sonar.java.binaries: build/classes
 
   - name: qualitygate
     plan:
