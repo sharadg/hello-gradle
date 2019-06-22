@@ -15,6 +15,10 @@ outputs:
   - name: artifact-dir
   - name: sonarqube-analysis-input
 
+caches:
+  - path: gradle
+  - path: maven
+
 run:
   path: git-repo/ci/build-artifact.sh
 
