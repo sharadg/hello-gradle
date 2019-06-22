@@ -18,9 +18,18 @@ resources:
       organization: {{SC_ORGANIZATION}}
 
 jobs:
+  - name: run-unit-tests
+    plan:
+      - get: git-repo
+        trigger: true
+      - task: build
+        file: git-repo/ci/unit-test.yml
+
   - name: build-and-analyze
     plan:
       - get: git-repo
+        passed:
+          - run-unit-tests
         trigger: true
       - task: build
         file: git-repo/ci/build-artifact.yml
@@ -42,7 +51,7 @@ jobs:
       - get: code-analysis
         passed:
           - build-and-analyze
-        trigger: true
+        trigger: false
       - task: check-sonarqube-quality-gate
         config:
           platform: linux

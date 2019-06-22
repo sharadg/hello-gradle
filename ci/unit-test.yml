@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: brianbyers/concourse-gradle
+    tag: "latest"
+
+
+inputs:
+  - name: git-repo
+
+outputs:
+  - name: artifact-dir
+
+caches:
+  - path: gradle
+  - path: maven
+
+run:
+  path: git-repo/ci/unit-test.sh
